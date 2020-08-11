@@ -1,11 +1,14 @@
-import React, { Component } from 'react';
-import './App.css';
-import MyName from './Myname';
+import React from 'react';
+import Fuck from "./Fuck";
 
-let h1 = React.createElement('h1',null,'Hello World!')
-ReactDOM.render(
-  h1,
-  document.getElementById('content')
-)
 
-export default h1;
+function App() {
+  return (
+    <div>
+    <h1>hello world</h1>
+    <Fuck />
+    </div>
+  );
+}
+
+export default App;

@@ -1,14 +1,49 @@
-import React from 'react';
-import Fuck from "./Fuck";
+import React from "react";
+import axios from "axios";
+import Movie from "./Movie";
+import "./App.css";
+// import PropTypes from "prop-types";
 
-
-function App() {
-  return (
-    <div>
-    <h1>hello world</h1>
-    <Fuck />
-    </div>
-  );
+class App extends React.Component{
+  state = {
+    isLoading: true,
+    movies: []
+  };
+  getMovies = async () => {
+    const {data: {data: {movies}}} = await axios.get("https://yts.mx/api/v2/list_movies.json");
+    // const {data: {data: {movies}}} = await axios.get("https://yts.mx/api/v2/list_movies.json?quality=3D");
+    this.setState({movies, isLoading: false});
+  }
+  componentDidMount() {
+    this.getMovies();
+  }
+  render() {
+    const { isLoading, movies } = this.state;
+    return <section className="container">
+      {isLoading ? (
+        <div className="loader">
+          <span className="loader_text">Loading...</span>
+        </div> 
+      )
+      : (
+        <div className="movies">
+        {/* <h1 className="Title">Popular Movie</h1> */}
+         { movies.map(movie => (
+        <Movie
+          key={movie.id}
+          id={movie.id}
+          year={movie.year}
+          title={movie.title}
+          summary={movie.summary}
+          poster={movie.medium_cover_image}
+          genres={movie.genres}
+        />
+         ))}
+        </div>
+      )}
+      </section>;
+    
+  }
 }
 
 export default App;
